@@ -5,3 +5,4 @@ Minimum requirements:
 6GB vram
 16GB ram
 
+I used an RTX 2060 to run this
