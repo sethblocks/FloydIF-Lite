@@ -17,17 +17,7 @@ image = stage_1(prompt_embeds=prompt_embeds, negative_prompt_embeds= negative_em
 imagepng=image.images[0]
 imagepng.save('img.png')
 
-stage_2 = DiffusionPipeline.from_pretrained(
-    "DeepFloyd/IF-II-L-v1.0", text_encoder=None, variant="fp16", torch_dtype=torch.float16
-)
-stage_2.enable_model_cpu_offload()
-stage_2.enable_attention_slicing(1)
-images2 = stage_2(
-    image=imagepng,
-    prompt_embeds=prompt_embeds,
-    negative_prompt_embeds=negative_embeds,
-    output_type="pt",
-).images[0]
+
 
 safety_modules = {
     "feature_extractor": stage_1.feature_extractor,
@@ -42,5 +32,5 @@ stage_3.enable_model_cpu_offload()
 stage_3.enable_attention_slicing(1)
 
 
-HDimg = stage_3(prompt=prompt, image=images2).images[0]
+HDimg = stage_3(prompt=prompt, image=imagepng).images[0]
 HDimg.save('HD.png')
